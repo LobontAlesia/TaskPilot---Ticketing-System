@@ -17,6 +17,10 @@ const UserSchema = new Schema({
   avatar: {
     type: String,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
   boards: [
     {
       type: Schema.Types.ObjectId,

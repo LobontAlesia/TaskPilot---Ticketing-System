@@ -14,19 +14,14 @@ module.exports = function (req, res, next) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded.user;
+
+    // Check if user is an admin
+    if (!req.user.isAdmin) {
+      return res.status(403).json({ msg: 'Not authorized as an admin' });
+    }
+
     next();
   } catch (err) {
     res.status(401).json({ msg: 'Token is not valid' });
   }
 };
-
-const isAdmin = (req, res, next) => {
-  auth(req, res, () => {
-    if (req.user && req.user.isAdmin) {
-      next();
-    } else {
-      res.status(401).json({ msg: 'Invalid Admin Token' });
-    }
-  });
-};
-

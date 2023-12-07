@@ -38,6 +38,7 @@ const Dashboard = () => {
             </Link>
           ))}
           <CreateBoard />
+
         </div>
       </section>
     </div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../actions/auth';
 
+
 const Navbar = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ const Navbar = () => {
   if (!isAuthenticated) {
     return '';
   }
+
 
   return (
     <nav className='navbar'>
