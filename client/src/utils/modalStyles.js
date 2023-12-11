@@ -104,6 +104,13 @@ const useStyles = makeStyles((theme) => ({
   archiveButton: {
     marginBottom: 5,
   },
+  //priority
+  prioritySelect: {
+    width: 200,
+    height: 40,
+    marginTop: 10,
+    marginRight: 20,
+  },
 }));
 
 export default useStyles;

@@ -232,8 +232,8 @@ export const addCard = (formData) => async (dispatch) => {
 // Edit card
 export const editCard = (cardId, formData) => async (dispatch) => {
   try {
+    console.log(formData); // adăugat pentru depurare
     const res = await axios.patch(`/api/cards/edit/${cardId}`, formData, config);
-
     dispatch({
       type: EDIT_CARD,
       payload: res.data,
@@ -342,6 +342,7 @@ export const addMember = (userId) => async (dispatch) => {
     });
   }
 };
+
 
 // Move list
 export const moveList = (listId, formData) => async (dispatch) => {

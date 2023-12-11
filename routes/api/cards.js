@@ -83,26 +83,35 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
-// Edit a card's title, description, and/or label
+// Edit a card's title, description, label, and/or priority
 router.patch('/edit/:id', [auth, member], async (req, res) => {
   try {
-    const { title, description, label } = req.body;
+    const { title, description, label, priority } = req.body;
+
     if (title === '') {
       return res.status(400).json({ msg: 'Title is required' });
     }
 
     const card = await Card.findById(req.params.id);
+
     if (!card) {
       return res.status(404).json({ msg: 'Card not found' });
     }
 
     card.title = title ? title : card.title;
+
     if (description || description === '') {
       card.description = description;
     }
+
     if (label || label === 'none') {
       card.label = label;
     }
+
+    if (priority || priority === 'none') {
+      card.priority = priority;
+    }
+
     await card.save();
 
     res.json(card);
@@ -111,6 +120,8 @@ router.patch('/edit/:id', [auth, member], async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+
 
 // Archive/Unarchive a card
 router.patch('/archive/:archive/:id', [auth, member], async (req, res) => {
@@ -253,5 +264,6 @@ router.delete('/:listId/:id', [auth, member], async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
 
 module.exports = router;

@@ -23,6 +23,11 @@ const Dashboard = () => {
   if (!isAuthenticated) {
     return <Redirect to='/' />;
   }
+  if (!isAuthenticated || !user) {
+    // If not authenticated or user is null, render nothing
+    return null;
+  }
+  const isAdmin = user._id.length > 0 && user.isAdmin;
 
   return (
     <div className='dashboard-and-navbar'>
@@ -37,7 +42,8 @@ const Dashboard = () => {
               {board.title}
             </Link>
           ))}
-          <CreateBoard />
+
+          {isAdmin && <CreateBoard />}
 
         </div>
       </section>

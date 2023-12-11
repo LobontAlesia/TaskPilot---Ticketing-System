@@ -1,5 +1,6 @@
 // Global
 
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -36,6 +37,8 @@ body {
     }
   }
 }
+
+
 
 // Landing
 
@@ -343,6 +346,14 @@ body {
               border-radius: 5px;
               margin-bottom: 5px;
             }
+
+            .card-priority {
+              height: 9px;
+              width: 45px;
+              border-radius: 5px;
+              margin-bottom: 5px;
+            }
+        
 
             .description-indicator {
               margin: 3px 5px -5px -3px;

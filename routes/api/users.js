@@ -79,4 +79,40 @@ router.get('/:input', auth, async (req, res) => {
   }
 });
 
+// Get all users
+router.get('/', auth, async (req, res) => {
+  try {
+    const users = await User.find();
+
+    res.json(users.filter((user) => user.id !== req.user.id));
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+router.patch("/admin/:id", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    user.isAdmin = !user.isAdmin;
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+})
+
+// Delete user
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+
+    res.json({ msg: 'User deleted' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;

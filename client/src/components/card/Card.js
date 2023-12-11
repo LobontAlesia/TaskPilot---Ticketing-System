@@ -26,6 +26,14 @@ const Card = ({ cardId, list, index }) => {
   );
   const dispatch = useDispatch();
 
+  const priorityImages = {
+    high: '/images/high-priority.png',
+    medium: '/images/medium-priority.png',
+    low: '/images/low-priority.png',
+    critical: '/images/critical-priority.png',
+  };
+  
+
   useEffect(() => {
     dispatch(getCard(cardId));
   }, [cardId, dispatch]);
@@ -96,6 +104,15 @@ const Card = ({ cardId, list, index }) => {
                 }}
                 ref={cardRef}
               >
+                  {card.priority && card.priority !== 'none' && (
+                  <div className="card-priority">
+                    <img
+                      src={priorityImages[card.priority]}
+                      alt={`Priority: ${card.priority}`}
+                      className="priority-image"
+                    />
+                  </div>
+                )}
                 {card.label && card.label !== 'none' && (
                   <div className='card-label' style={{ backgroundColor: card.label }} />
                 )}

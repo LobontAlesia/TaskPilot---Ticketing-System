@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addList } from '../../actions/board';
 import { TextField, Button } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
@@ -8,6 +8,8 @@ const CreateList = () => {
   const [adding, setAdding] = useState(false);
   const [title, setTitle] = useState('');
   const dispatch = useDispatch();
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+
 
   const formRef = useRef(null);
   useEffect(() => {
@@ -20,7 +22,14 @@ const CreateList = () => {
     setTitle('');
   };
 
-  return !adding ? (
+   if (!isAuthenticated || !user) {
+    // If not authenticated or user is null, render nothing
+    return null;
+  }
+
+  const isAdmin = user._id.length > 0 && user.isAdmin;
+
+  return isAdmin && (!adding ? (
     <div className='create-list-button'>
       <Button variant='contained' onClick={() => setAdding(true)}>
         + Add a list
@@ -54,7 +63,7 @@ const CreateList = () => {
         </div>
       </form>
     </div>
-  );
+  ));
 };
 
 export default CreateList;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { addMember } from '../../actions/board';
+import { addMember} from '../../actions/board';
 import getInitials from '../../utils/getInitials';
 import { TextField, Button } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
@@ -18,6 +18,7 @@ const Members = () => {
   const searchOptions = users.filter((user) =>
     boardMembers.find((boardMember) => boardMember.user === user._id) ? false : true
   );
+  const { user: userData, isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const handleInputValue = async (newInputValue) => {
@@ -35,6 +36,14 @@ const Members = () => {
     setInviting(false);
   };
 
+  if (!isAuthenticated || !userData) {
+    // If not authenticated or user is null, render nothing
+    return null;
+  }
+
+
+  const isAdmin = userData._id.length > 0 && userData.isAdmin;
+
   return (
     <div className='board-members-wrapper'>
       <div className='board-members'>
@@ -46,39 +55,48 @@ const Members = () => {
           );
         })}
       </div>
-      {!inviting ? (
-        <Button className='invite' variant='contained' onClick={() => setInviting(true)}>
-          Invite
-        </Button>
-      ) : (
-        <div className='invite'>
-          <Autocomplete
-            value={user}
-            onChange={(e, newMember) => setUser(newMember)}
-            inputValue={inputValue}
-            onInputChange={(e, newInputValue) => handleInputValue(newInputValue)}
-            options={searchOptions}
-            getOptionLabel={(member) => member.email}
-            className='search-member'
-            renderInput={(params) => (
-              <TextField {...params} helperText='Search for user by email' autoFocus />
-            )}
-          />
-          <div className='add-member'>
-            <Button
-              disabled={!user}
-              variant='contained'
-              color='primary'
-              onClick={onSubmit}
-            >
-              Add Member
-            </Button>
-            <Button onClick={() => setInviting(false)}>
-              <CloseIcon />
-            </Button>
+      {isAdmin && (
+      <div className='invite'>
+        {!inviting ? (
+          <Button
+            className='invite'
+            variant='contained'
+            onClick={() => setInviting(true)}
+          >
+            Invite
+          </Button>
+        ) : (
+          <div className='invite'>
+            <Autocomplete
+              value={user}
+              onChange={(e, newMember) => setUser(newMember)}
+              inputValue={inputValue}
+              onInputChange={(e, newInputValue) => handleInputValue(newInputValue)}
+              options={searchOptions}
+              getOptionLabel={(member) => member.email}
+              className='search-member'
+              renderInput={(params) => (
+                <TextField {...params} helperText='Search for a user by email' autoFocus />
+              )}
+            />
+            <div className='add-member'>
+              <Button
+                disabled={!user}
+                variant='contained'
+                color='primary'
+                onClick={onSubmit}
+              >
+                Add Member
+              </Button>
+              <Button onClick={() => setInviting(false)}>
+                <CloseIcon />
+              </Button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+    )}
+
     </div>
   );
 };

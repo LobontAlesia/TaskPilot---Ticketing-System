@@ -17,20 +17,27 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
   const [description, setDescription] = useState(card.description);
   const dispatch = useDispatch();
 
+  const [priority, setPriority] = useState(card.priority);
+
+
   useEffect(() => {
     setTitle(card.title);
     setDescription(card.description);
+    setPriority(card.priority);
   }, [card]);
 
   const onTitleDescriptionSubmit = async (e) => {
     e.preventDefault();
-    dispatch(editCard(cardId, { title, description }));
+    dispatch(editCard(cardId, { title, description, priority }));
   };
+  
+
 
   const onArchiveCard = async () => {
     dispatch(archiveCard(cardId, true));
     setOpen(false);
   };
+
 
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
@@ -69,7 +76,8 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             disabled={
               title === card.title &&
               (description === card.description ||
-                (description === '' && !card.description))
+                (description === '' && !card.description) &&
+                priority === card.priority)
             }
             className={classes.button}
           >
@@ -87,10 +95,26 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             <Button
               className={classes.noLabel}
               variant='outlined'
-              onClick={async () => dispatch(editCard(cardId, { label: 'none' }))}
+              onClick={async () => dispatch(editCard(cardId, { label: 'none', priority: 'none' }))}
             >
               No Label
             </Button>
+          </div>
+          <div className={classes.modalSection}>
+          <h3 className={classes.labelTitle}>Priority</h3>
+            <select
+              value={priority}
+              className={classes.prioritySelect}
+              onChange={async (e) => {
+                const selectedPriority = e.target.value;
+                dispatch(editCard(cardId, { priority: selectedPriority }));
+              }}
+            >
+              <option value="critical">Critical</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
           </div>
         </div>
         <Checklist card={card} />

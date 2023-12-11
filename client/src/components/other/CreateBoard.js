@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { addBoard } from '../../actions/board';
 import { Modal, TextField, Button } from '@material-ui/core';
@@ -11,11 +11,18 @@ const CreateBoard = ({ history }) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const dispatch = useDispatch();
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     dispatch(addBoard({ title }, history));
   };
+
+  if (!isAuthenticated || !user) {
+    // If not authenticated or user is null, render nothing
+    return null;
+  }
+
 
   const body = (
     <div className={`${classes.paper} ${classes.createBoardModal}`}>

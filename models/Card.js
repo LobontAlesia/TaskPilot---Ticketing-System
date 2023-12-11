@@ -11,6 +11,11 @@ const CardSchema = new Schema({
   label: {
     type: String,
   },
+  priority: {
+    type: String,
+    required: true,
+    default: 'low',
+  },
   members: [
     {
       _id: false,
