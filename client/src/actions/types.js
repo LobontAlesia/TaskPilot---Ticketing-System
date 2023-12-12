@@ -32,3 +32,8 @@ export const EDIT_CHECKLIST_ITEM = 'EDIT_CHECKLIST_ITEM';
 export const COMPLETE_CHECKLIST_ITEM = 'COMPLETE_CHECKLIST_ITEM';
 export const DELETE_CHECKLIST_ITEM = 'DELETE_CHECKLIST_ITEM';
 export const GET_USERS = 'GET_USERS';
+
+//Acest cod exportă o listă de constante care sunt folosite pentru a defini tipurile de acțiuni care pot fi trimise către un depozit Redux.
+// Aceste acțiuni pot fi utilizate pentru a actualiza starea aplicației în răspuns la intrările utilizatorului sau alte evenimente.
+
+//redux este o biblioteca de gestionare a stării pentru JavaScript, utilizată pentru a scrie aplicații front-end.

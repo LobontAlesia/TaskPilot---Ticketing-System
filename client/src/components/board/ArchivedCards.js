@@ -4,6 +4,8 @@ import { archiveCard, deleteCard } from '../../actions/board';
 
 import { Card, List, ListItem, CardContent, Button } from '@material-ui/core';
 
+//Acest cod exportă o listă de constante care sunt folosite pentru a defini tipurile de acțiuni care pot fi trimise către un depozit Redux.
+
 const ArchivedCards = () => {
   const cards = useSelector((state) => state.board.board.cardObjects);
   const lists = useSelector((state) => state.board.board.listObjects);

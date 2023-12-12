@@ -21,10 +21,12 @@ const Card = ({ cardId, list, index }) => {
   const [height, setHeight] = useState(0);
   const [completeItems, setCompleteItems] = useState(0);
   const cardRef = useRef(null);
+ 
   const card = useSelector((state) =>
     state.board.board.cardObjects.find((object) => object._id === cardId)
   );
   const dispatch = useDispatch();
+
 
   const priorityImages = {
     high: '/images/high-priority.png',
@@ -33,6 +35,12 @@ const Card = ({ cardId, list, index }) => {
     critical: '/images/critical-priority.png',
   };
   
+  //compare the deadline date with current date and if shorter than 1 day, make the card border red
+  const deadline = card && card.deadline ? new Date(card.deadline) : null;
+  const today = new Date();
+  const diffTime = deadline ? Math.abs(deadline - today) : null;
+  const diffDays = deadline ? Math.ceil(diffTime / (1000 * 60 * 60 * 24)) : null;
+
 
   useEffect(() => {
     dispatch(getCard(cardId));
@@ -54,6 +62,7 @@ const Card = ({ cardId, list, index }) => {
   useEffect(() => {
     cardRef && cardRef.current && setHeight(cardRef.current.clientHeight);
   }, [list, card, cardRef]);
+
 
   const onSubmitEdit = async (e) => {
     e.preventDefault();
@@ -83,6 +92,10 @@ const Card = ({ cardId, list, index }) => {
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
+              style={{
+                border: `3px solid ${diffDays && diffDays < 3 ? 'red' : 'transparent'}`,
+                // Add other styles as needed
+              }}
             >
               {mouseOver && !editing && (
                 <Button

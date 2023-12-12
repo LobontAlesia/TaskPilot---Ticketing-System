@@ -184,3 +184,13 @@ export default function (state = initialState, action) {
       return state;
   }
 }
+
+// Acest cod definește un alt reducer Redux care gestionează starea pentru o aplicație de tip board (tablă) în cadrul unei aplicații mai mari. Reducerul primește starea curentă și o acțiune, iar în funcție de tipul acțiunii și încărcătură, returnează o nouă stare.
+
+// Starea Inițială:
+// boards: Un array care conține toate tablourile.
+// board: Un obiect care reprezintă tabloul curent selectat sau vizualizat.
+// dashboardLoading: O valoare booleană care indică dacă se încarcă informațiile pentru panoul de bord.
+// error: Un obiect care poate conține mesaje de eroare asociate cu reducerul.
+// Reducer:
+// Reducerul folosește un switch pentru a trata diferite tipuri de acțiuni, iar acestea sunt constante importate din fișierul ../actions/types.

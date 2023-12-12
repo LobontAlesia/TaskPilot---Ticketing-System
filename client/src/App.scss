@@ -353,7 +353,14 @@ body {
               border-radius: 5px;
               margin-bottom: 5px;
             }
-        
+
+            //deadline 
+            .card-deadline {
+              height: 9px;
+              width: 45px;
+              border-radius: 5px;
+              margin-bottom: 5px;
+            }
 
             .description-indicator {
               margin: 3px 5px -5px -3px;
@@ -369,6 +376,7 @@ body {
               .checklist-indicator-icon {
                 margin-right: 2px;
               }
+
             }
 
             .completed-checklist-indicator {
@@ -386,6 +394,10 @@ body {
 
               .card-bottom-left {
                 display: flex;
+              }
+
+              .card.near-deadline {
+                border: 2px solid red;
               }
 
               .card-member-avatars {

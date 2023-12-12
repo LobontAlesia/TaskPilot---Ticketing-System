@@ -27,13 +27,18 @@ import {
   DELETE_CHECKLIST_ITEM,
 } from './types';
 
+// Set default board
+// setează antetul comun al axios pentru a include id-ul bordului și declanșează o acțiune GET_BOARD cu datele primite.
 const config = {
   headers: {
     'Content-Type': 'application/json',
   },
 };
 
+//diferenta intre solicitare post si get este ca la post se trimite si un body care contine datele care se trimit la server, in cazul de fata datele din formular 
+
 // Get boards
+// trimite o solicitare GET la /api/boards și declanșează o acțiune GET_BOARDS cu datele primite.
 export const getBoards = () => async (dispatch) => {
   try {
     dispatch({ type: CLEAR_BOARD });
@@ -53,6 +58,9 @@ export const getBoards = () => async (dispatch) => {
 };
 
 // Get board
+// trimite o solicitare GET la /api/boards/:id și declanșează o acțiune GET_BOARD cu datele primite.
+// Dacă răspunsul este valid, setează antetul comun al axios pentru a include id-ul bordului.
+// În caz contrar, șterge antetul comun al axios.
 export const getBoard = (id) => async (dispatch) => {
   try {
     const res = await axios.get(`/api/boards/${id}`);
@@ -76,6 +84,9 @@ export const getBoard = (id) => async (dispatch) => {
 };
 
 // Add board
+// trimite o solicitare POST la /api/boards cu datele din formular și declanșează o acțiune ADD_BOARD cu datele primite.
+// Dacă răspunsul este valid, declanșează o acțiune SET_ALERT cu mesajul „Board Created”.
+// În caz contrar, declanșează o acțiune BOARD_ERROR cu mesajul de eroare și codul de stare.
 export const addBoard = (formData, history) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
@@ -99,6 +110,8 @@ export const addBoard = (formData, history) => async (dispatch) => {
 };
 
 // Rename board
+// trimite o solicitare PATCH la /api/boards/rename/:boardId cu datele din formular și declanșează o acțiune RENAME_BOARD cu datele primite.
+// Dacă răspunsul este valid, declanșează o acțiune SET_ALERT cu mesajul „Board Renamed”.
 export const renameBoard = (boardId, formData) => async (dispatch) => {
   try {
     const res = await axios.patch(`/api/boards/rename/${boardId}`, formData, config);
@@ -118,6 +131,8 @@ export const renameBoard = (boardId, formData) => async (dispatch) => {
 };
 
 // Get list
+// trimite o solicitare GET la /api/lists/:id și declanșează o acțiune GET_LIST cu datele primite.
+// Dacă răspunsul este valid, setează antetul comun al axios pentru a include id-ul listei.
 export const getList = (id) => async (dispatch) => {
   try {
     const res = await axios.get(`/api/lists/${id}`);
@@ -135,6 +150,8 @@ export const getList = (id) => async (dispatch) => {
 };
 
 // Add list
+// trimite o solicitare POST la /api/lists cu datele din formular și declanșează o acțiune ADD_LIST cu datele primite.
+// Dacă răspunsul este valid, declanșează o acțiune GET_ACTIVITY.
 export const addList = (formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
@@ -156,6 +173,7 @@ export const addList = (formData) => async (dispatch) => {
 };
 
 // Rename list
+// trimite o solicitare PATCH la /api/lists/rename/:listId cu datele din formular și declanșează o acțiune RENAME_LIST cu datele primite.
 export const renameList = (listId, formData) => async (dispatch) => {
   try {
     const res = await axios.patch(`/api/lists/rename/${listId}`, formData, config);
@@ -173,6 +191,8 @@ export const renameList = (listId, formData) => async (dispatch) => {
 };
 
 // Archive/Unarchive list
+// trimite o solicitare PATCH la /api/lists/archive/:archive/:listId și declanșează o acțiune ARCHIVE_LIST cu datele primite.
+//o solicitare patch este folosita pentru a modifica o resursa existenta, in cazul nostru lista
 export const archiveList = (listId, archive) => async (dispatch) => {
   try {
     const res = await axios.patch(`/api/lists/archive/${archive}/${listId}`);

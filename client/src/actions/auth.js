@@ -1,3 +1,4 @@
+//axios este un client HTTP bazat pe promisiuni pentru browser și node.js
 import axios from 'axios';
 import { setAlert } from './alert';
 import {
@@ -11,7 +12,11 @@ import {
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
-// Load User
+// Load User 
+
+//verifică dacă un token de utilizator este stocat în stocarea locală și îl setează ca antet de autorizare pentru viitoarele solicitări API.
+// Apoi trimite o solicitare GET către /api/auth pentru a prelua datele utilizatorului și declanșează o acțiune USER_LOADED cu datele preluate.
+// În caz de eroare, declanșează o acțiune AUTH_ERROR.
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -32,6 +37,10 @@ export const loadUser = () => async (dispatch) => {
 };
 
 // Register User
+
+// trimite o solicitare POST la /api/users cu numele, adresa de e-mail și parola utilizatorului.
+// Dacă este înregistrat cu succes, declanșează o acțiune REGISTER_SUCCESS și o acțiune USER_LOADED cu datele utilizatorului.
+// În caz de eroare, declanșează o acțiune REGISTER_FAIL.
 export const register = ({ name, email, password }) => async (dispatch) => {
   const config = {
     headers: {
@@ -44,6 +53,8 @@ export const register = ({ name, email, password }) => async (dispatch) => {
   try {
     const res = await axios.post('/api/users', body, config);
 
+    //dispatch inseamna ca se trimite la reducer
+    //payload sunt datele care se trimit la reducer
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data,
@@ -64,6 +75,9 @@ export const register = ({ name, email, password }) => async (dispatch) => {
 };
 
 // Login User
+// trimite o solicitare POST la /api/auth cu adresa de e-mail și parola utilizatorului.
+// Dacă este înregistrat cu succes, declanșează o acțiune LOGIN_SUCCESS și o acțiune USER_LOADED cu datele utilizatorului.
+// În caz de eroare, declanșează o acțiune LOGIN_FAIL.
 export const login = (email, password) => async (dispatch) => {
   const config = {
     headers: {
@@ -96,6 +110,8 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 // Logout
+// declanșează o acțiune LOGOUT
+// șterge toate datele utilizatorului din stocarea locală
 export const logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT });
 };

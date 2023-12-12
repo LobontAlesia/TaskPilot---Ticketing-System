@@ -26,6 +26,11 @@ const BoardDrawer = () => {
   const [activityChunks, setActivityChunks] = useState(1);
   const activity = useSelector((state) => state.board.board.activity);
 
+  //This code defines a React component called BoardDrawer that renders a drawer menu for a board application.
+  // The drawer menu can be opened and closed by clicking a button. 
+  //The menu contains two sections: "Archived Lists" and "Archived Cards".
+  // The "Activity" section displays the most recent activity on the board, with a button to view more activity.
+
   const handleClose = () => {
     setOpen(false);
     setActivityChunks(1);

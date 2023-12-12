@@ -23,6 +23,21 @@ const useStyles = makeStyles((theme) => ({
   labelTitle: {
     margin: '20px 0 10px',
   },
+  //date picker
+  datePicker: {
+    width: '90%', // Lățimea la 100% pentru a se potrivi cu lățimea părintelui
+    height: 40,
+    marginTop: 10,
+    padding: '8px 12px', // Ajustează marginile interioare pentru a se potrivi mai bine cu celelalte casete de text
+    boxSizing: 'border-box', // Asigură-te că lățimea și înălțimea includ marginile și padding-urile
+    border: '1px solid #ced4da', // Adaugă o bordură subțire pentru a delimita caseta
+    borderRadius: 4, // Rotunjirea colțurilor pentru un aspect mai plăcut
+    fontSize: '16px', // Mărimea fontului similară cu alte casete de text
+    outline: 'none', // Elimină conturul atunci când este selectat
+    '&:focus': {
+      border: '1px solid #80bdff', // Culorea bordurii atunci când este în focus
+    },
+  },
   colorPicker: {
     minWidth: 212,
   },
@@ -106,10 +121,18 @@ const useStyles = makeStyles((theme) => ({
   },
   //priority
   prioritySelect: {
-    width: 200,
+    width: '100%', // Lățimea la 100% pentru a se potrivi cu lățimea părintelui
     height: 40,
     marginTop: 10,
-    marginRight: 20,
+    padding: '8px 12px', // Ajustează marginile interioare pentru a se potrivi mai bine cu celelalte casete de text
+    boxSizing: 'border-box', // Asigură-te că lățimea și înălțimea includ marginile și padding-urile
+    border: '1px solid #ced4da', // Adaugă o bordură subțire pentru a delimita caseta
+    borderRadius: 4, // Rotunjirea colțurilor pentru un aspect mai plăcut
+    fontSize: '16px', // Mărimea fontului similară cu alte casete de text
+    outline: 'none', // Elimină conturul atunci când este selectat
+    '&:focus': {
+      border: '1px solid #80bdff', // Culorea bordurii atunci când este în focus
+    },
   },
 }));
 

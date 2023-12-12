@@ -16,6 +16,10 @@ const CardSchema = new Schema({
     required: true,
     default: 'low',
   },
+  deadline: {
+    type: Date,
+    default: null,
+  },
   members: [
     {
       _id: false,

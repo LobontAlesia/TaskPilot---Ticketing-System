@@ -19,19 +19,21 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
 
   const [priority, setPriority] = useState(card.priority);
 
+  const [deadline, setDeadline] = useState(card.deadline);
+
 
   useEffect(() => {
     setTitle(card.title);
     setDescription(card.description);
     setPriority(card.priority);
+    setDeadline(card.deadline);
   }, [card]);
 
   const onTitleDescriptionSubmit = async (e) => {
     e.preventDefault();
-    dispatch(editCard(cardId, { title, description, priority }));
+    dispatch(editCard(cardId, { title, description, priority, deadline }));
   };
   
-
 
   const onArchiveCard = async () => {
     dispatch(archiveCard(cardId, true));
@@ -84,22 +86,23 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             Save All Changes
           </Button>
         </form>
+
         <div className={classes.modalSection}>
-          <CardMembers card={card} />
-          <div>
-            <h3 className={classes.labelTitle}>Label</h3>
-            <GithubPicker
-              className={classes.colorPicker}
-              onChange={async (color) => dispatch(editCard(cardId, { label: color.hex }))}
+        <div className={classes.modalSection}>
+            {/* //set deadline */}
+            <h3 className={classes.labelTitle}>Deadline</h3>
+            <input
+              className={classes.datePicker}
+              type='date'
+              value={deadline ? deadline.split('T')[0] : ''}
+              onChange={(e) => {
+                const selectedDeadline = e.target.value;
+                dispatch(editCard(cardId, { deadline: selectedDeadline }));
+              }}
+              min={new Date().toISOString().split('T')[0]}
             />
-            <Button
-              className={classes.noLabel}
-              variant='outlined'
-              onClick={async () => dispatch(editCard(cardId, { label: 'none', priority: 'none' }))}
-            >
-              No Label
-            </Button>
-          </div>
+        </div>
+
           <div className={classes.modalSection}>
           <h3 className={classes.labelTitle}>Priority</h3>
             <select
@@ -117,6 +120,26 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             </select>
           </div>
         </div>
+
+        <div className={classes.modalSection}>
+          <CardMembers card={card} />
+          <div>
+            <h3 className={classes.labelTitle}>Label</h3>
+            <GithubPicker
+              className={classes.colorPicker}
+              onChange={async (color) => dispatch(editCard(cardId, { label: color.hex }))}
+            />
+            <Button
+              className={classes.noLabel}
+              variant='outlined'
+              onClick={async () => dispatch(editCard(cardId, { label: 'none', priority: 'none' }))}
+            >
+              No Label
+            </Button>
+          </div>
+        </div>
+        
+
         <Checklist card={card} />
         <div className={classes.modalSection}>
           <MoveCard cardId={cardId} setOpen={setOpen} thisList={list} />

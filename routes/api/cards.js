@@ -83,10 +83,10 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
-// Edit a card's title, description, label, and/or priority
+// Edit a card's title, description, label, and/or priority and deadline
 router.patch('/edit/:id', [auth, member], async (req, res) => {
   try {
-    const { title, description, label, priority } = req.body;
+    const { title, description, label, priority, deadline } = req.body;
 
     if (title === '') {
       return res.status(400).json({ msg: 'Title is required' });
@@ -112,6 +112,19 @@ router.patch('/edit/:id', [auth, member], async (req, res) => {
       card.priority = priority;
     }
 
+    // Handle updating the deadline
+    if (deadline) {
+      // Validate if the deadline is a valid date format
+      const deadlineDate = new Date(deadline);
+      if (isNaN(deadlineDate.getTime())) {
+        return res.status(400).json({ msg: 'Invalid deadline format' });
+      }
+      card.deadline = deadlineDate;
+    } else {
+      // Set to null if no deadline is provided
+      card.deadline = null;
+    }
+
     await card.save();
 
     res.json(card);
@@ -120,7 +133,6 @@ router.patch('/edit/:id', [auth, member], async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
 
 
 // Archive/Unarchive a card
