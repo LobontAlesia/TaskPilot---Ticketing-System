@@ -93,7 +93,7 @@ body {
 .modal__content {
   border-radius: 4px;
   position: relative;
-  width: 500px;
+  width: 750px;
   max-width: 90%;
   background: #fff;
   padding: 2em 3em;
@@ -246,8 +246,17 @@ button {
   }
 }
 
+.dashboard-and-navbar {
+  background-size: cover;
+  height: 100vh;
+}
+
 .dashboard-and-navbar .navbar {
   background-color: #026aa7;
+  display: flex;
+  justify-content: space-between;
+  background-color: #026aa7;
+  padding: 10px;
 }
 
 .dashboard {
@@ -258,13 +267,16 @@ button {
 }
 
 .dashboard h1 {
-  text-align: center;
-  font-weight: 500;
+  font-size: 40px;
+  font-weight: 700;
+  color: #2a2a2a;
+  line-height: 72px;
 }
 
 .dashboard h2 {
-  margin-top: 40px;
+  margin-top: 10px;
   font-weight: 400;
+  color: white;
 }
 
 .dashboard .dashboard-loading {
@@ -289,24 +301,24 @@ button {
   font-weight: 500;
   color: white;
   border-radius: 10px;
-  background-color: #5067c5;
+  background-color: #03a4ed;
 }
 
 .dashboard .board-card:hover {
-  background-color: #4057b5;
+  background-color: #93ccfb;
 }
 
 .dashboard .create-board-card {
   padding: 0;
   border: none;
-  color: #333;
+  color: #000000;
   font-size: 1rem;
-  background-color: lightgrey;
+  background-color: rgb(255, 255, 255);
   cursor: pointer;
 }
 
 .dashboard .create-board-card:hover {
-  background-color: darkgrey;
+  background-color: rgb(201, 201, 201);
 }
 
 .board-and-navbar {

@@ -20,7 +20,9 @@ const Navbar = () => {
   return (<>
     <nav className='navbar'>
       <Link to='/dashboard'>Home</Link>
+      {isAdmin==false && (
       <Link to='/dashboard'>TaskPilot</Link>
+      )}
       {isAdmin && (
         <button className="admin-button" onClick={() => setChangePermissionsModal((currentVal) => !currentVal)}>
           <a href="#admin">Manage users</a>
