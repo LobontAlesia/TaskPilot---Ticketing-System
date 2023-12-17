@@ -4,13 +4,25 @@ import PropTypes from 'prop-types';
 import { addCardMember } from '../../actions/board';
 import { Checkbox, FormGroup, FormControlLabel, FormControl } from '@material-ui/core';
 import useStyles from '../../utils/modalStyles';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const CardMembers = ({ card }) => {
   const classes = useStyles();
   const boardMembers = useSelector((state) => state.board.board.members);
+  
   const members = card.members.map((member) => member.user);
   const dispatch = useDispatch();
+  const [allUsers, setAllUsers] = useState([]);
 
+  const fetchUsers = async () => {
+    const users = await axios.get(`/api/users`);
+    setAllUsers(users.data);
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+  
   return (
     <div>
       <h3 className={classes.membersTitle}>Members</h3>
@@ -32,6 +44,7 @@ const CardMembers = ({ card }) => {
                     )
                   }
                   name={member.user}
+
                 />
               }
               label={member.name}

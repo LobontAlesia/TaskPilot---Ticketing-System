@@ -19,12 +19,17 @@ const UserSchema = new Schema({
   },
   isAdmin: {
     type: Boolean,
-    default: false
+    default: false,
   },
   boards: [
     {
       type: Schema.Types.ObjectId,
       ref: 'boards',
+    },
+  ],
+  programmingLanguages: [
+    {
+      type: String,
     },
   ],
 });

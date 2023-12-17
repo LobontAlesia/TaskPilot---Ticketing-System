@@ -27,7 +27,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(getBoards());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     document.title = 'Your Boards | TaskPilot';

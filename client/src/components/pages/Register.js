@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAlert } from '../../actions/alert';
-import { register } from '../../actions/auth';
+import { register, updateProgrammingLanguages } from '../../actions/auth';
 
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,27 +12,58 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-
-//import Copyright from '../other/Copyright';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import useStyles from '../../utils/formStyles';
+
+const CMultiSelect = ({ options, value, onChange, ...props }) => {
+  const classes = useStyles();
+
+  const [selectedOptions, setSelectedOptions] = useState(value || []);
+
+  const handleChange = (event) => {
+    setSelectedOptions(event.target.value);
+    onChange(event.target.value);
+  };
+
+  return (
+    <Select
+      multiple
+      value={selectedOptions}
+      onChange={handleChange}
+      className={classes.select}
+      {...props}
+    >
+      {options.map((option) => (
+        <MenuItem key={option} value={option}>
+          {option}
+        </MenuItem>
+      ))}
+    </Select>
+  );
+
+};
+
 
 const Register = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     password2: '',
+    programmingLanguages: [], // Use an array for multi-select
   });
+
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     document.title = 'TaskPilot | Sign Up';
   }, []);
 
-  const { name, email, password, password2 } = formData;
+  const { name, email, password, password2, programmingLanguages } = formData;
 
   const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -41,13 +72,25 @@ const Register = () => {
     if (password !== password2) {
       dispatch(setAlert('Passwords do not match', 'error'));
     } else {
-      dispatch(register({ name, email, password }));
+      // Dispatch register action with programming languages
+      dispatch(register({ name, email, password, programmingLanguages }));
     }
+  };
+  
+  const onProgrammingLanguagesChange = (selectedOptions) => {
+    // Update local state
+    setFormData({ ...formData, programmingLanguages: selectedOptions });
+  };
+
+  const onSaveProgrammingLanguages = () => {
+    // Dispatch updateProgrammingLanguages action
+    dispatch(updateProgrammingLanguages(programmingLanguages));
   };
 
   if (isAuthenticated) {
     return <Redirect to='/dashboard' />;
   }
+
 
   return (
     <Container component='main' maxWidth='xs' className={classes.container}>
@@ -110,6 +153,24 @@ const Register = () => {
                 onChange={(e) => onChange(e)}
               />
             </Grid>
+            <Grid item xs={12}>
+          <CMultiSelect
+            clearSearchOnSelect
+            options={[
+              'JavaScript',
+              'Node.js',
+              'Python',
+              'Ruby',
+              'Java',
+              'PHP',
+              'Laravel',
+              'C#',
+              'C/C++',
+            ]}
+            value={programmingLanguages}
+            onChange={onProgrammingLanguagesChange}
+          />
+        </Grid>
           </Grid>
           <Button
             type='submit'

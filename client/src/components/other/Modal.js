@@ -47,6 +47,12 @@ const Modal = () => {
                       </td>
                       <td>{user.email}</td>
                     </tr>
+                    <tr>
+                      <td>
+                        <strong>Programming languages:</strong>
+                      </td>
+                      <td>{user.programmingLanguages.join(', ')}</td>
+                    </tr>
                   </tbody>
                 </table>
                 <div style={{ marginBottom: '7px' }}></div>

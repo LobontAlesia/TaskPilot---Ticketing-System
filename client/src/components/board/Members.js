@@ -8,9 +8,11 @@ import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CloseIcon from '@material-ui/icons/Close';
+import ModalBoardDelete from '../other/ModalBoardDelete';
 
 const Members = () => {
   const [inviting, setInviting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [user, setUser] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [users, setUsers] = useState([]);
@@ -57,7 +59,7 @@ const Members = () => {
       </div>
       {isAdmin && (
       <div className='invite'>
-        {!inviting ? (
+        {!inviting ? (<>
           <Button
             className='invite'
             variant='contained'
@@ -65,6 +67,14 @@ const Members = () => {
           >
             Invite
           </Button>
+          <Button
+          className='delete'
+          variant='contained'
+          color='secondary'
+          onClick={() => setShowDeleteModal(true)}
+        >
+          <a href="#admin">Delete</a>
+        </Button></>
         ) : (
           <div className='invite'>
             <Autocomplete
@@ -96,7 +106,7 @@ const Members = () => {
         )}
       </div>
     )}
-
+    {showDeleteModal && <ModalBoardDelete />}
     </div>
   );
 };

@@ -25,7 +25,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, programmingLanguages } = req.body;
 
     try {
       // See if user exists
@@ -39,6 +39,7 @@ router.post(
         email,
         avatar: gravatar.url(email, { s: '200', r: 'pg', d: 'mm' }),
         password: await bcrypt.hash(password, await bcrypt.genSalt(10)),
+        programmingLanguages, // Adăugăm limbajele de programare la utilizator
       });
 
       await user.save();

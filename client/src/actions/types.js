@@ -32,6 +32,9 @@ export const EDIT_CHECKLIST_ITEM = 'EDIT_CHECKLIST_ITEM';
 export const COMPLETE_CHECKLIST_ITEM = 'COMPLETE_CHECKLIST_ITEM';
 export const DELETE_CHECKLIST_ITEM = 'DELETE_CHECKLIST_ITEM';
 export const GET_USERS = 'GET_USERS';
+export const UPDATE_PROGRAMMING_LANGUAGES_FAIL = 'UPDATE_PROGRAMMING_LANGUAGES_FAIL';
+export const UPDATE_PROGRAMMING_LANGUAGES_SUCCESS = 'UPDATE_PROGRAMMING_LANGUAGES_SUCCESS';
+export const REMOVE_MEMBER = 'REMOVE_MEMBER';
 
 //Acest cod exportă o listă de constante care sunt folosite pentru a defini tipurile de acțiuni care pot fi trimise către un depozit Redux.
 // Aceste acțiuni pot fi utilizate pentru a actualiza starea aplicației în răspuns la intrările utilizatorului sau alte evenimente.

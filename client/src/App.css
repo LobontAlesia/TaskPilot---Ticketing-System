@@ -410,6 +410,7 @@ button {
 
 .board .avatar:hover {
   background-color: #ddd;
+  cursor: pointer;
 }
 
 .board .create-list-button {

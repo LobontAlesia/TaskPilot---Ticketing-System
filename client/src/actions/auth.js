@@ -9,6 +9,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  UPDATE_PROGRAMMING_LANGUAGES_FAIL,
+  UPDATE_PROGRAMMING_LANGUAGES_SUCCESS,
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
@@ -41,25 +43,24 @@ export const loadUser = () => async (dispatch) => {
 // trimite o solicitare POST la /api/users cu numele, adresa de e-mail și parola utilizatorului.
 // Dacă este înregistrat cu succes, declanșează o acțiune REGISTER_SUCCESS și o acțiune USER_LOADED cu datele utilizatorului.
 // În caz de eroare, declanșează o acțiune REGISTER_FAIL.
-export const register = ({ name, email, password }) => async (dispatch) => {
+export const register = ({ name, email, password, programmingLanguages }) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  const body = JSON.stringify({ name, email, password });
+  const body = JSON.stringify({ name, email, password, programmingLanguages });
 
   try {
     const res = await axios.post('/api/users', body, config);
 
-    //dispatch inseamna ca se trimite la reducer
-    //payload sunt datele care se trimit la reducer
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
 
+    // Încarcă utilizatorul cu limbajele de programare înregistrate
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
@@ -114,4 +115,24 @@ export const login = (email, password) => async (dispatch) => {
 // șterge toate datele utilizatorului din stocarea locală
 export const logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT });
+};
+
+// acțiune pentru a actualiza limbajele de programare în baza de date
+export const updateProgrammingLanguages = (programmingLanguages) => async (dispatch) => {
+  try {
+    // efectuează cererea API pentru a actualiza limbajele de programare în baza de date
+    // utilizează axios sau orice altă metodă dorită
+    // ...
+
+    dispatch({
+      type: UPDATE_PROGRAMMING_LANGUAGES_SUCCESS,
+      payload: programmingLanguages,
+    });
+  } catch (err) {
+    // în caz de eroare, poți declanșa o acțiune de eroare
+    dispatch({
+      type: UPDATE_PROGRAMMING_LANGUAGES_FAIL,
+      payload: err,
+    });
+  }
 };

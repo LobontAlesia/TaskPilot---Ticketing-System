@@ -25,6 +25,7 @@ import {
   EDIT_CHECKLIST_ITEM,
   COMPLETE_CHECKLIST_ITEM,
   DELETE_CHECKLIST_ITEM,
+  REMOVE_MEMBER
 } from './types';
 
 // Set default board
@@ -362,6 +363,27 @@ export const addMember = (userId) => async (dispatch) => {
     });
   }
 };
+
+export const removeMember = (userId) => async (dispatch) => {
+  try {
+    const res = axios.delete(`/api/boards/removeMember/${userId}`);
+    dispatch({
+      type: REMOVE_MEMBER,
+      payload: res.data,
+    });
+    dispatch(getActivity());
+  } catch (err) {
+    dispatch({
+      type: BOARD_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
+    });
+  
+  }
+
+}
 
 
 // Move list

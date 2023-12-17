@@ -51,10 +51,7 @@ router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
 
-    const boards = [];
-    for (const boardId of user.boards) {
-      boards.push(await Board.findById(boardId));
-    }
+    const boards = await Board.find({ _id: { $in: user.boards } });
 
     res.json(boards);
   } catch (err) {
@@ -62,6 +59,7 @@ router.get('/', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
 
 // Get a board by id
 router.get('/:id', auth, async (req, res) => {
@@ -162,6 +160,40 @@ router.put('/addMember/:userId', [auth, member], async (req, res) => {
   }
 });
 
+// Remove a board member
+router.delete('/removeMember/:userId', [auth, member], async (req, res) => {
+  try {
+    const board = await Board.findById(req.header('boardId'));
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    // See if member of board
+    if (!board.members.map((member) => member.user).includes(req.params.userId)) {
+      return res.status(400).json({ msg: 'Not member of board' });
+    }
+
+    // Remove board from user's boards
+    user.boards = user.boards.filter((boardId) => boardId !== board.id);
+    await user.save();
+
+    // Remove user from board's members
+    console.log(board.members)
+    board.members = board.members.filter((member) => String(member.user) !== req.params.userId);
+
+    // Log activity
+    board.activity.unshift({
+      text: `${user.name} left this board`,
+    });
+    await board.save();
+
+    res.json(board.members);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 
 module.exports = router;
